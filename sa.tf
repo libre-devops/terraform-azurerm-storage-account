@@ -1,3 +1,6 @@
+#checkov:skip=CKV2_AZURE_1:CMKs are not considered in this module
+#checkov:skip=CKV2_AZURE_18:CMKs are not considered in this module
+#checkov:skip=CKV_AZURE_33:Storage logging is not configured by default in this module
 #tfsec:ignore:azure-storage-queue-services-logging-enabled tfsec:ignore:azure-storage-allow-microsoft-service-bypass
 resource "azurerm_storage_account" "sa" {
   name                            = var.storage_account_name
@@ -13,6 +16,10 @@ resource "azurerm_storage_account" "sa" {
   large_file_share_enabled        = var.large_file_share_enabled
   allow_nested_items_to_be_public = var.allow_nested_items_to_be_public
   shared_access_key_enabled       = var.shared_access_keys_enabled
+
+  queue_encryption_key_type         = var.queue_encryption_key_type
+  table_encryption_key_type         = var.table_encryption_key_type
+  infrastructure_encryption_enabled = var.infrastructure_encryption_enabled
 
   dynamic "identity" {
     for_each = length(var.identity_ids) == 0 && var.identity_type == "SystemAssigned" ? [var.identity_type] : []

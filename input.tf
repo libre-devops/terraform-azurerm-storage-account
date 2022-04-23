@@ -85,6 +85,25 @@ variable "shared_access_keys_enabled" {
   default     = true
 }
 
+variable "queue_encryption_key_type" {
+  type        = string
+  description = "The type of queue encryption key, default is Service"
+  default     = "Service"
+}
+
+variable "table_encryption_key_type" {
+  type        = string
+  description = "The type of table encryption key, default is Service"
+  default     = "Service"
+}
+
+variable "infrastructure_encryption_enabled" {
+  type        = bool
+  description = "Whether infrastructure encryption is enabled, default is false"
+  default     = false
+}
+
+
 variable "network_rules" {
   type        = map(any)
   description = "Are network rules needed? set variable to true"
