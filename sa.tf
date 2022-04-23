@@ -1,16 +1,18 @@
-#tfsec:ignore:azure-storage-queue-services-logging-enabled
+#tfsec:ignore:azure-storage-queue-services-logging-enabled tfsec:ignore:azure-storage-allow-microsoft-service-bypass
 resource "azurerm_storage_account" "sa" {
-  name                      = var.storage_account_name
-  resource_group_name       = var.rg_name
-  location                  = var.location
-  account_tier              = var.account_tier
-  account_replication_type  = var.replication_type
-  access_tier               = var.access_tier
-  enable_https_traffic_only = var.enable_https_traffic_only
-  min_tls_version           = var.min_tls_version
-  is_hns_enabled            = var.is_hns_enabled
-  nfsv3_enabled             = var.nfsv3_enabled
-  large_file_share_enabled  = var.large_file_share_enabled
+  name                            = var.storage_account_name
+  resource_group_name             = var.rg_name
+  location                        = var.location
+  account_tier                    = var.account_tier
+  account_replication_type        = var.replication_type
+  access_tier                     = var.access_tier
+  enable_https_traffic_only       = var.enable_https_traffic_only
+  min_tls_version                 = var.min_tls_version
+  is_hns_enabled                  = var.is_hns_enabled
+  nfsv3_enabled                   = var.nfsv3_enabled
+  large_file_share_enabled        = var.large_file_share_enabled
+  allow_nested_items_to_be_public = var.allow_nested_items_to_be_public
+  shared_access_key_enabled       = var.shared_access_keys_enabled
 
   dynamic "identity" {
     for_each = length(var.identity_ids) == 0 && var.identity_type == "SystemAssigned" ? [var.identity_type] : []

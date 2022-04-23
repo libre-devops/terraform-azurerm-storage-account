@@ -73,6 +73,18 @@ variable "large_file_share_enabled" {
   default     = false
 }
 
+variable "allow_nested_items_to_be_public" {
+  type        = bool
+  description = "Whether nested blobs can be set to public from a private top level container"
+  default     = false
+}
+
+variable "shared_access_keys_enabled" {
+  type        = bool
+  description = "Whether shared access keys a.k.a storage keys are enabled"
+  default     = true
+}
+
 variable "network_rules" {
   type        = map(any)
   description = "Are network rules needed? set variable to true"
