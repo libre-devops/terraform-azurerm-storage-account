@@ -76,7 +76,7 @@ variable "large_file_share_enabled" {
 variable "network_rules" {
   type        = map(any)
   description = "Are network rules needed? set variable to true"
-  default = {}
+  default     = {}
 }
 
 variable "identity_type" {
