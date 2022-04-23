@@ -32,8 +32,8 @@ resource "azurerm_storage_account" "sa" {
       default_action             = lookup(network_rules.value, "default_action", null)
       bypass                     = toset(lookup(network_rules.value, "bypass", null))
       ip_rules                   = toset(lookup(network_rules.value, "ip_rules", null))
-      virtual_network_subnet_ids = toset(lookup(network_rules.value, "subnet_ids", null)
-    }
+      virtual_network_subnet_ids = toset(lookup(network_rules.value, "subnet_ids", null))
+    },
   }
 
   tags = var.tags
