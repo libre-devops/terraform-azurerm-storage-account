@@ -34,7 +34,7 @@ resource "azurerm_storage_account" "sa" {
       ip_rules                   = tolist(lookup(network_rules.value, "ip_rules", null))
       virtual_network_subnet_ids = tolist(lookup(network_rules.value, "subnet_ids", null))
     }
-
-    tags = var.tags
   }
+
+  tags = var.tags
 }
