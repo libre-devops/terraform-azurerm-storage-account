@@ -27,12 +27,12 @@ resource "azurerm_storage_account" "sa" {
   }
 
   dynamic "network_rules" {
-    for_each = length(var.network_rules) > 0 != {} ? [var.network_rules] : []
+    for_each = var.network_rules
     content {
       default_action             = lookup(network_rules.value, "default_action", null)
-      bypass                     = lookup(network_rules.value, "bypass", null)
-      ip_rules                   = lookup(network_rules.value, "ip_rules", null)
-      virtual_network_subnet_ids = lookup(network_rules.value, "subnet_ids", null)
+      bypass                     = toset(lookup(network_rules.value, "bypass", null))
+      ip_rules                   = toset(lookup(network_rules.value, "ip_rules", null))
+      virtual_network_subnet_ids = toset(lookup(network_rules.value, "subnet_ids", null)
     }
   }
 
