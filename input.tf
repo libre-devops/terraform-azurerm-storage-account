@@ -75,7 +75,8 @@ variable "large_file_share_enabled" {
 
 variable "network_rules" {
   type        = bool
-  description = "Are network rules needed? set variable to true"
+  description = "Are network rules needed? set variable to true
+  default = ""
 }
 
 variable "identity_type" {
