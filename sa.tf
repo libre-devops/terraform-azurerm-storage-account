@@ -1,3 +1,4 @@
+#tfsec:ignore:azure-storage-queue-services-logging-enabled
 resource "azurerm_storage_account" "sa" {
   name                      = var.storage_account_name
   resource_group_name       = var.rg_name
