@@ -124,10 +124,10 @@ resource "azurerm_storage_account" "sa" {
         for_each = lookup(var.storage_account_properties.share_properties, "smb", false) == false ? [] : [1]
 
         content {
-          versions                       = toset(var.storage_account_properties.share_properties.smb.versions)
-          authentication_types           = toset(var.storage_account_properties.share_properties.smb.authentication_types)
-          kerebos_ticket_encryption_type = toset(var.storage_account_properties.share_properties.smb.kerebos_ticket_encryption_type)
-          channel_encryption_type        = toset(var.storage_account_properties.share_properties.smb.channel_encryption_type)
+          versions                        = toset(var.storage_account_properties.share_properties.smb.versions)
+          authentication_types            = toset(var.storage_account_properties.share_properties.smb.authentication_types)
+          kerberos_ticket_encryption_type = toset(var.storage_account_properties.share_properties.smb.kerberos_ticket_encryption_type)
+          channel_encryption_type         = toset(var.storage_account_properties.share_properties.smb.channel_encryption_type)
         }
       }
 
@@ -228,7 +228,6 @@ resource "azurerm_storage_account" "sa" {
     content {
       key_vault_key_id          = try(var.storage_account_properties.customer_managed_key.key_vault_key_id, null)
       user_assigned_identity_id = try(var.storage_account_properties.customer_managed_key.user_assigned_identity_id, null)
-      customer_managed_key      = try(var.storage_account_properties.customer_managed_key.customer_managed_key, null)
     }
   }
 
