@@ -103,10 +103,110 @@ variable "infrastructure_encryption_enabled" {
   default     = false
 }
 
+variable "custom_domain" {
+  type        = map(any)
+  description = "Are customs domain needed? set variable to with a non empty value to use"
+  default     = {}
+}
 
+variable "customer_managed_key" {
+  type        = map(any)
+  description = "Are customer managed needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "blob_properties" {
+  type        = map(any)
+  description = "Are blob properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "queue_properties" {
+  type        = map(any)
+  description = "Are queue properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "static_site" {
+  type        = map(any)
+  description = "Are static sites needed? set variable to with a non empty value to use"
+  default     = {}
+}
 variable "network_rules" {
   type        = map(any)
-  description = "Are network rules needed? set variable to true"
+  description = "Are network rules needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "azure_files_authentication" {
+  type        = map(any)
+  description = "Are azure file authentication needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "routing" {
+  type        = map(any)
+  description = "Are routing authentication needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "delete_retention_policy" {
+  type        = map(any)
+  description = "Are delete retention policies needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "container_delete_retention_policy" {
+  type        = map(any)
+  description = "Are container delete retention policies needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "hour_metrics" {
+  type        = map(any)
+  description = "Are hour metrics needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "minute_metrics" {
+  type        = map(any)
+  description = "Are minute metrics needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "logging" {
+  type        = map(any)
+  description = "Are logging settings needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "private_link_access" {
+  type        = map(any)
+  description = "Are private links access needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "active_directory" {
+  type        = map(any)
+  description = "Are AD settings needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "share_properties" {
+  type        = map(any)
+  description = "Are share properties settings needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "retention_policy" {
+  type        = map(any)
+  description = "Are retention policy settings needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "smb" {
+  type        = map(any)
+  description = "Are smb settings needed? set variable to with a non empty value to use"
   default     = {}
 }
 
