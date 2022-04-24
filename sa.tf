@@ -107,10 +107,6 @@ resource "azurerm_storage_account" "sa" {
     for_each = lookup(var.storage_account_properties, "share_properties", false) == false ? [] : [1]
 
     content {
-      versioning_enabled       = try(var.storage_account_properties.share_properties.versioning_enabled, false)
-      change_feed_enabled      = try(var.storage_account_properties.share_properties.change_feed_enabled, false)
-      default_service_version  = try(var.storage_account_properties.share_properties.default_service_version, "2020-06-12")
-      last_access_time_enabled = try(var.storage_account_properties.share_properties.last_access_time_enabled, false)
 
       dynamic "cors_rule" {
         for_each = lookup(var.storage_account_properties.share_properties, "cors_rule", false) == false ? [] : [1]
