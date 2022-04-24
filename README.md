@@ -121,7 +121,7 @@ module "sa" {
     azure_files_authentication = {
       directory_type = "AD"
 
-      activte_directory = {
+      active_directory = {
         storage_sid  = "12345"
         domain_name  = "libredevops.org"
         domain_sid   = "4567343"
