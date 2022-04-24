@@ -57,38 +57,30 @@ resource "azurerm_storage_account" "sa" {
   dynamic "queue_properties" {
     for_each = length(var.queue_properties) > 0 || var.queue_properties != "" ? var.queue_properties : {}
     content {
-      dynamic "logging" {
-        for_each = length(var.queue_properties_logging) > 0 || var.queue_properties_logging != "" ? var.queue_properties_logging : {}
-        content {
-          delete                = lookup(logging.value, "delete_enabled", null)
-          read                  = lookup(logging.value, "read_enabled", null)
-          write                 = lookup(logging.value, "write_enabled", null)
-          version               = lookup(logging.value, "version", null)
-          retention_policy_days = lookup(logging.value, "retention_in_days", null)
-        }
-      }
+
+      #        dynamic "logging" {
+      #          for_each = length(var.queue_properties_logging) > 0 || var.queue_properties_logging != "" ? var.queue_properties_logging : {}
+      #          content {
+      #            delete                = lookup(logging.value, "delete_enabled", null)
+      #            read                  = lookup(logging.value, "read_enabled", null)
+      #            write                 = lookup(logging.value, "write_enabled", null)
+      #            version               = lookup(logging.value, "version", null)
+      #            retention_policy_days = lookup(logging.value, "retention_in_days", null)
+      #          }
+      #      }
 
       dynamic "cors_rule" {
         for_each = length(var.queue_cors_rule) > 0 || var.queue_cors_rule != "" ? var.queue_cors_rule : {}
         content {
-          allowed_headers    = lookup(cors_rule.value, "allowed_headers", null)
-          allowed_methods    = lookup(cors_rule.value, "allowed_methods", null)
-          allowed_origins    = lookup(cors_rule.value, "allowed_origins", null)
-          exposed_headers    = lookup(cors_rule.value, "exposed_headers", null)
+          allowed_headers    = tolist(lookup(cors_rule.value, "allowed_headers", null))
+          allowed_methods    = tolist(lookup(cors_rule.value, "allowed_methods", null))
+          allowed_origins    = tolist(lookup(cors_rule.value, "allowed_origins", null))
+          exposed_headers    = tolist(lookup(cors_rule.value, "exposed_headers", null))
           max_age_in_seconds = lookup(cors_rule.value, "max_age_in_seconds.", null)
         }
       }
     }
   }
-  //  queue_properties {
-  //    logging {
-  //      delete                = true
-  //      read                  = true
-  //      write                 = true
-  //      version               = "1.0"
-  //      retention_policy_days = 10
-  //    }
-  //  }
 
   tags = var.tags
 }
