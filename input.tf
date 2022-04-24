@@ -115,7 +115,7 @@ variable "customer_managed_key" {
   default     = {}
 }
 
-variable "storage_account" {
+variable "storage_account_properties" {
   type        = any
   description = "Variable used my module to export dynamic block values"
 }
