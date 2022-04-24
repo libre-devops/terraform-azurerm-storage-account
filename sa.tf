@@ -37,7 +37,7 @@ resource "azurerm_storage_account" "sa" {
   }
 
   dynamic "network_rules" {
-    for_each = lookup(var.storage_account_properties, "network", null) == null ? [] : [1]
+    for_each = lookup(var.storage_account_properties, "network_rules", null) == null ? [] : [1]
     content {
       bypass                     = try(toset(var.storage_account_properties.network.bypass), ["AzureServices"])
       default_action             = try(toset(var.storage_account_properties.network.default_action), "Deny")
