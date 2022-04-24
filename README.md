@@ -1,6 +1,6 @@
 ```hcl
 module "sa" {
-  source = "github.com/libre-devops/terraform-azurerm-storage-account"
+  source = "registry.terraform.io/libre-devops/storage-account/azurerm"
 
   rg_name  = module.rg.rg_name
   location = module.rg.rg_location
@@ -31,12 +31,12 @@ module "sa" {
     }
 
     blob_properties = {
-      versioning_eabled        = false
+      versioning_enabled       = false
       change_feed_enabled      = false
       default_service_version  = "2020-06-12"
       last_access_time_enabled = false
 
-      deletion_retention_polcies = {
+      deletion_retention_policies = {
         days = 10
       }
 
@@ -131,7 +131,7 @@ module "sa" {
       }
     }
 
-  // You must have a managed key for this to work
+    // You must have a managed key for this to work
     customer_managed_key = {
       key_vault_key_id          = data.azurerm_key_vault.mgmt_kv.id
       user_assigned_identity_id = data.azurerm_user_assigned_identity.mgmt_user_assigned_id.id
