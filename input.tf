@@ -121,7 +121,37 @@ variable "blob_properties" {
   default     = {}
 }
 
-variable "queue_properties" {
+variable "blob_properties_settings" {
+  type        = map(any)
+  description = "Are blob properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "queue_properties_settings" {
+  type        = map(any)
+  description = "Are queue properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "queue_properties_logging" {
+  type        = map(any)
+  description = "Are queue properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "queue_cors_rule" {
+  type        = map(any)
+  description = "Are queue properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "queue_cors_minute_metrics" {
+  type        = map(any)
+  description = "Are queue properties needed? set variable to with a non empty value to use"
+  default     = {}
+}
+
+variable "queue_cors_minute_hour_metrics" {
   type        = map(any)
   description = "Are queue properties needed? set variable to with a non empty value to use"
   default     = {}

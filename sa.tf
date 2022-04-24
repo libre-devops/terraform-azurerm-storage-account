@@ -54,5 +54,32 @@ resource "azurerm_storage_account" "sa" {
     }
   }
 
+  dynamic "queue_properties" {
+    for_each = length(var.queue_properties_settings) > 0 || var.queue_properties_settings != "" ? var.queue_properties_settings : {}
+    content {
+      dynamic "logging" {
+        for_each = length(var.queue_properties_logging) > 0 || var.queue_properties_logging != "" ? var.queue_properties_logging : {}
+        content {
+          delete                = lookup(logging.value, "delete_enabled", null)
+          read                  = lookup(logging.value, "read_enabled", null)
+          write                 = lookup(logging.value, "write_enabled", null)
+          version               = lookup(logging.value, "version", null)
+          retention_policy_days = lookup(logging.value, "retention_in_days", null)
+        }
+      }
+    }
+  }
+
+
+  //  queue_properties {
+  //    logging {
+  //      delete                = true
+  //      read                  = true
+  //      write                 = true
+  //      version               = "1.0"
+  //      retention_policy_days = 10
+  //    }
+  //  }
+
   tags = var.tags
 }
