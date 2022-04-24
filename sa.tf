@@ -43,6 +43,16 @@ resource "azurerm_storage_account" "sa" {
       bypass                     = toset(lookup(network_rules.value, "bypass", null))
       ip_rules                   = toset(lookup(network_rules.value, "ip_rules", null))
       virtual_network_subnet_ids = toset(lookup(network_rules.value, "subnet_ids", null))
+
+      dynamic "private_link_access" {
+        for_each = lookup(var.storage_account_properties.network_rules "private_link_access", false) == false ? [] : [1]
+
+        content {
+          endpoint_resource_id    = var.storage_account_properties.network_rules.private_link_access.allowed_headers
+          endpoint_tenant_id    = var.storage_account_properties.network_rules.endpoint_tenant_id.allowed_methods
+        }
+      }
+
     }
   }
 
@@ -88,6 +98,47 @@ resource "azurerm_storage_account" "sa" {
 
         content {
           days = try(var.storage_account_properties.blob_properties.container_delete_retention_policy.container_delete_retention_policy, 7)
+        }
+      }
+    }
+  }
+
+  dynamic "share_properties" {
+    for_each = lookup(var.storage_account_properties, "share_properties", false) == false ? [] : [1]
+
+    content {
+      versioning_enabled       = try(var.storage_account_properties.share_properties.versioning_enabled, false)
+      change_feed_enabled      = try(var.storage_account_properties.share_properties.change_feed_enabled, false)
+      default_service_version  = try(var.storage_account_properties.share_properties.default_service_version, "2020-06-12")
+      last_access_time_enabled = try(var.storage_account_properties.share_properties.last_access_time_enabled, false)
+
+      dynamic "cors_rule" {
+        for_each = lookup(var.storage_account_properties.share_properties, "cors_rule", false) == false ? [] : [1]
+
+        content {
+          allowed_headers    = var.storage_account_properties.share_properties.cors_rule.allowed_headers
+          allowed_methods    = var.storage_account_properties.share_properties.cors_rule.allowed_methods
+          allowed_origins    = var.storage_account_properties.share_properties.cors_rule.allowed_origins
+          exposed_headers    = var.storage_account_properties.share_properties.cors_rule.exposed_headers
+          max_age_in_seconds = var.storage_account_properties.share_properties.cors_rule.max_age_in_seconds
+        }
+      }
+
+      dynamic "smb" {
+        for_each = lookup(var.storage_account_properties.share_properties, "smb", false) == false ? [] : [1]
+
+        content {
+          versions = toset(var.storage_account_properties.share_properties.smb.versions)
+          authentication_types = toset(var.storage_account_properties.share_properties.smb.authentication_types)
+          kerebos_ticket_encryption_type = toset(var.storage_account_properties.share_properties.smb.kerebos_ticket_encryption_type)
+          channel_encryption_type = toset(var.storage_account_properties.share_properties.smb.channel_encryption_type)
+        }
+      }
+
+      dynamic "retention_policy" {
+        for_each = lookup(var.storage_account_properties.share_properties, "retention_policy", false) == false ? [] : [1]
+        content {
+          days = var.storage_account_properties.share_properties.retention_policy.days
         }
       }
     }
@@ -172,6 +223,16 @@ resource "azurerm_storage_account" "sa" {
           netbios_domain_name = var.storage_account_properties.azure_files_authentication.active_directory.netbios_domain_name
         }
       }
+    }
+  }
+
+  dynamic "customer_managed_key" {
+    for_each = lookup(var.storage_account_properties, "customer_managed_key", false) == false ? [] : [1]
+
+    content {
+      key_vault_key_id  = try(var.storage_account_properties.customer_managed_key.key_vault_key_id, null)
+      user_assigned_identity_id = try(var.storage_account_properties.customer_managed_key.user_assigned_identity_id, null)
+      customer_managed_key                      = try(var.storage_account_properties.customer_managed_key.customer_managed_key, null)
     }
   }
 
