@@ -69,7 +69,7 @@ resource "azurerm_storage_account" "sa" {
       }
 
       dynamic "cors_rule" {
-        for_each = length(var.queue_cors_rule) > 0 || var.queue_cors_rule!= "" ? var.queue_cors_rule : {}
+        for_each = length(var.queue_cors_rule) > 0 || var.queue_cors_rule != "" ? var.queue_cors_rule : {}
         content {
           allowed_headers    = tolist(lookup(cors_rule.value, "allowed_headers", null))
           allowed_methods    = tolist(lookup(cors_rule.value, "allowed_methods", null))
@@ -77,9 +77,9 @@ resource "azurerm_storage_account" "sa" {
           exposed_headers    = tolist(lookup(cors_rule.value, "exposed_headers", null))
           max_age_in_seconds = lookup(cors_rule.value, "max_age_in_seconds.", null)
         }
+      }
     }
   }
-
   //  queue_properties {
   //    logging {
   //      delete                = true
