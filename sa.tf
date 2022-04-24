@@ -45,14 +45,13 @@ resource "azurerm_storage_account" "sa" {
       virtual_network_subnet_ids = toset(lookup(network_rules.value, "subnet_ids", null))
 
       dynamic "private_link_access" {
-        for_each = lookup(var.storage_account_properties.network_rules "private_link_access", false) == false ? [] : [1]
+        for_each = lookup(var.storage_account_properties.network_rules, "private_link_access", false) == false ? [] : [1]
 
         content {
-          endpoint_resource_id    = var.storage_account_properties.network_rules.private_link_access.allowed_headers
-          endpoint_tenant_id    = var.storage_account_properties.network_rules.endpoint_tenant_id.allowed_methods
+          endpoint_resource_id = var.storage_account_properties.network_rules.private_link_access.allowed_headers
+          endpoint_tenant_id   = var.storage_account_properties.network_rules.endpoint_tenant_id.allowed_methods
         }
       }
-
     }
   }
 
@@ -128,10 +127,10 @@ resource "azurerm_storage_account" "sa" {
         for_each = lookup(var.storage_account_properties.share_properties, "smb", false) == false ? [] : [1]
 
         content {
-          versions = toset(var.storage_account_properties.share_properties.smb.versions)
-          authentication_types = toset(var.storage_account_properties.share_properties.smb.authentication_types)
+          versions                       = toset(var.storage_account_properties.share_properties.smb.versions)
+          authentication_types           = toset(var.storage_account_properties.share_properties.smb.authentication_types)
           kerebos_ticket_encryption_type = toset(var.storage_account_properties.share_properties.smb.kerebos_ticket_encryption_type)
-          channel_encryption_type = toset(var.storage_account_properties.share_properties.smb.channel_encryption_type)
+          channel_encryption_type        = toset(var.storage_account_properties.share_properties.smb.channel_encryption_type)
         }
       }
 
@@ -230,9 +229,9 @@ resource "azurerm_storage_account" "sa" {
     for_each = lookup(var.storage_account_properties, "customer_managed_key", false) == false ? [] : [1]
 
     content {
-      key_vault_key_id  = try(var.storage_account_properties.customer_managed_key.key_vault_key_id, null)
+      key_vault_key_id          = try(var.storage_account_properties.customer_managed_key.key_vault_key_id, null)
       user_assigned_identity_id = try(var.storage_account_properties.customer_managed_key.user_assigned_identity_id, null)
-      customer_managed_key                      = try(var.storage_account_properties.customer_managed_key.customer_managed_key, null)
+      customer_managed_key      = try(var.storage_account_properties.customer_managed_key.customer_managed_key, null)
     }
   }
 
