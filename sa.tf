@@ -37,12 +37,12 @@ resource "azurerm_storage_account" "sa" {
   }
 
   dynamic "network_rules" {
-    for_each = length(var.network_rules) > 0 || var.network_rules != "" ? var.network_rules : {}
+    for_each = lookup(var.storage_account_properties, "network", null) == null ? [] : [1]
     content {
-      default_action             = lookup(network_rules.value, "default_action", null)
-      bypass                     = toset(lookup(network_rules.value, "bypass", null))
-      ip_rules                   = toset(lookup(network_rules.value, "ip_rules", null))
-      virtual_network_subnet_ids = toset(lookup(network_rules.value, "subnet_ids", null))
+      bypass                     = try(toset(var.storage_account_properties.network.bypass), ["AzureServices"])
+      default_action             = try(toset(var.storage_account_properties.network.default_action), "Deny")
+      ip_rules                   = try(toset(var.storage_account_properties.network.ip_rules), [])
+      virtual_network_subnet_ids = try(toset(var.storage_account_properties.network.subnets), null)
 
       dynamic "private_link_access" {
         for_each = lookup(var.storage_account_properties.network_rules, "private_link_access", false) == false ? [] : [1]
@@ -56,10 +56,11 @@ resource "azurerm_storage_account" "sa" {
   }
 
   dynamic "custom_domain" {
-    for_each = length(var.custom_domain) > 0 || var.custom_domain != "" ? var.custom_domain : {}
+    for_each = lookup(var.storage_account_properties, "custom_domain", false) == false ? [] : [1]
+
     content {
-      name          = custom_domain.key
-      use_subdomain = lookup(custom_domain.value, "use_subdomain", null)
+      name          = var.storage_account_properties.custom_domain.name
+      use_subdomain = try(var.storage_account_properties.custom_domain.use_subdomain, null)
     }
   }
 
