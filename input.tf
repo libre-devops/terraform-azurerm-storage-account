@@ -115,73 +115,14 @@ variable "customer_managed_key" {
   default     = {}
 }
 
-variable "blob_properties" {
-  type        = map(any)
-  description = "Are blob properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
 variable "storage_account" {
   type        = any
   description = "Variable used my module to export dynamic block values"
 }
 
-variable "blob_properties_settings" {
-  type        = map(any)
-  description = "Are blob properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "queue_properties" {
-  type        = map(any)
-  description = "Are queue properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "queue_properties_logging" {
-  type        = map(any)
-  description = "Are queue properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "queue_cors_rule" {
-  type        = map(any)
-  description = "Are queue properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "queue_cors_minute_metrics" {
-  type        = map(any)
-  description = "Are queue properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "queue_cors_minute_hour_metrics" {
-  type        = map(any)
-  description = "Are queue properties needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "static_site" {
-  type        = map(any)
-  description = "Are static sites needed? set variable to with a non empty value to use"
-  default     = {}
-}
 variable "network_rules" {
   type        = map(any)
   description = "Are network rules needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "azure_files_authentication" {
-  type        = map(any)
-  description = "Are azure file authentication needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "routing" {
-  type        = map(any)
-  description = "Are routing authentication needed? set variable to with a non empty value to use"
   default     = {}
 }
 
@@ -194,36 +135,6 @@ variable "delete_retention_policy" {
 variable "container_delete_retention_policy" {
   type        = map(any)
   description = "Are container delete retention policies needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "hour_metrics" {
-  type        = map(any)
-  description = "Are hour metrics needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "minute_metrics" {
-  type        = map(any)
-  description = "Are minute metrics needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "logging" {
-  type        = map(any)
-  description = "Are logging settings needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "private_link_access" {
-  type        = map(any)
-  description = "Are private links access needed? set variable to with a non empty value to use"
-  default     = {}
-}
-
-variable "active_directory" {
-  type        = map(any)
-  description = "Are AD settings needed? set variable to with a non empty value to use"
   default     = {}
 }
 

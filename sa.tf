@@ -54,33 +54,44 @@ resource "azurerm_storage_account" "sa" {
     }
   }
 
-  #  dynamic "queue_properties" {
-  #    for_each = length(var.queue_properties) > 0 || var.queue_properties != "" ? var.queue_properties : {}
-  #    content {
-  #
-  #      #        dynamic "logging" {
-  #      #          for_each = length(var.queue_properties_logging) > 0 || var.queue_properties_logging != "" ? var.queue_properties_logging : {}
-  #      #          content {
-  #      #            delete                = lookup(logging.value, "delete_enabled", null)
-  #      #            read                  = lookup(logging.value, "read_enabled", null)
-  #      #            write                 = lookup(logging.value, "write_enabled", null)
-  #      #            version               = lookup(logging.value, "version", null)
-  #      #            retention_policy_days = lookup(logging.value, "retention_in_days", null)
-  #      #          }
-  #      #      }
-  #
-  #      dynamic "cors_rule" {
-  #        for_each = length(var.queue_cors_rule) > 0 || var.queue_cors_rule != "" ? var.queue_cors_rule : {}
-  #        content {
-  #          allowed_headers    = tolist(lookup(cors_rule.value, "allowed_headers", null))
-  #          allowed_methods    = tolist(lookup(cors_rule.value, "allowed_methods", null))
-  #          allowed_origins    = tolist(lookup(cors_rule.value, "allowed_origins", null))
-  #          exposed_headers    = tolist(lookup(cors_rule.value, "exposed_headers", null))
-  #          max_age_in_seconds = lookup(cors_rule.value, "max_age_in_seconds.", null)
-  #        }
-  #      }
-  #    }
-  #  }
+  dynamic "blob_properties" {
+    for_each = lookup(var.storage_account, "blob_properties", false) == false ? [] : [1]
+
+    content {
+      versioning_enabled       = try(var.storage_account.blob_properties.versioning_enabled, false)
+      change_feed_enabled      = try(var.storage_account.blob_properties.change_feed_enabled, false)
+      default_service_version  = try(var.storage_account.blob_properties.default_service_version, "2020-06-12")
+      last_access_time_enabled = try(var.storage_account.blob_properties.last_access_time_enabled, false)
+
+      dynamic "cors_rule" {
+        for_each = lookup(var.storage_account.blob_properties, "cors_rule", false) == false ? [] : [1]
+
+        content {
+          allowed_headers    = var.storage_account.blob_properties.cors_rule.allowed_headers
+          allowed_methods    = var.storage_account.blob_properties.cors_rule.allowed_methods
+          allowed_origins    = var.storage_account.blob_properties.cors_rule.allowed_origins
+          exposed_headers    = var.storage_account.blob_properties.cors_rule.exposed_headers
+          max_age_in_seconds = var.storage_account.blob_properties.cors_rule.max_age_in_seconds
+        }
+      }
+
+      dynamic "delete_retention_policy" {
+        for_each = lookup(var.storage_account.blob_properties, "delete_retention_policy", false) == false ? [] : [1]
+
+        content {
+          days = try(var.storage_account.blob_properties.delete_retention_policy.delete_retention_policy, 7)
+        }
+      }
+
+      dynamic "container_delete_retention_policy" {
+        for_each = lookup(var.storage_account.blob_properties, "container_delete_retention_policy", false) == false ? [] : [1]
+
+        content {
+          days = try(var.storage_account.blob_properties.container_delete_retention_policy.container_delete_retention_policy, 7)
+        }
+      }
+    }
+  }
 
   dynamic "queue_properties" {
     for_each = lookup(var.storage_account, "queue_properties", false) == false ? [] : [1]
@@ -131,6 +142,46 @@ resource "azurerm_storage_account" "sa" {
           retention_policy_days = try(var.storage_account.queue_properties.hour_metrics.retention_policy_days, 7)
         }
       }
+    }
+  }
+
+  dynamic "static_website" {
+    for_each = lookup(var.storage_account, "static_website", false) == false ? [] : [1]
+
+    content {
+      index_document     = try(var.storage_account.static_website.index_document, null)
+      error_404_document = try(var.storage_account.static_website.error_404_document, null)
+    }
+  }
+
+  dynamic "azure_files_authentication" {
+    for_each = lookup(var.storage_account, "azure_files_authentication", false) == false ? [] : [1]
+
+    content {
+      directory_type = var.storage_account.azure_files_authentication.directory_type
+
+      dynamic "active_directory" {
+        for_each = lookup(var.storage_account.azure_files_authentication, "active_directory", false) == false ? [] : [1]
+
+        content {
+          storage_sid         = var.storage_account.azure_files_authentication.active_directory.storage_sid
+          domain_name         = var.storage_account.azure_files_authentication.active_directory.domain_name
+          domain_sid          = var.storage_account.azure_files_authentication.active_directory.domain_sid
+          domain_guid         = var.storage_account.azure_files_authentication.active_directory.domain_guid
+          forest_name         = var.storage_account.azure_files_authentication.active_directory.forest_name
+          netbios_domain_name = var.storage_account.azure_files_authentication.active_directory.netbios_domain_name
+        }
+      }
+    }
+  }
+
+  dynamic "routing" {
+    for_each = lookup(var.storage_account, "routing", false) == false ? [] : [1]
+
+    content {
+      publish_internet_endpoints  = try(var.storage_account.routing.publish_internet_endpoints, false)
+      publish_microsoft_endpoints = try(var.storage_account.routing.publish_microsoft_endpoints, false)
+      choice                      = try(var.storage_account.routing.choice, "MicrosoftRouting")
     }
   }
 
