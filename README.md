@@ -8,7 +8,7 @@ module "sa" {
 
   storage_account_name = "st${var.short}${var.loc}${terraform.workspace}01"
   access_tier          = "Hot"
-  identity_type = "SystemAssigned"
+  identity_type        = "SystemAssigned"
 
   storage_account_properties = {
 
