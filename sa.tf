@@ -39,10 +39,10 @@ resource "azurerm_storage_account" "sa" {
   dynamic "network_rules" {
     for_each = lookup(var.storage_account_properties, "network", null) == null ? [] : [1]
     content {
-      bypass                     = try(toset(var.storage_account_properties.network.bypass), ["AzureServices"])
-      default_action             = try(toset(var.storage_account_properties.network.default_action), "Deny")
-      ip_rules                   = try(toset(var.storage_account_properties.network.ip_rules), [])
-      virtual_network_subnet_ids = try(toset(var.storage_account_properties.network.subnets), null)
+      bypass                     = try(var.storage_account_properties.network.bypass, ["AzureServices"])
+      default_action             = try(var.storage_account_properties.network.default_action, "Deny")
+      ip_rules                   = try(var.storage_account_properties.network.ip_rules, [])
+      virtual_network_subnet_ids = try(var.storage_account_properties.network.subnets, null)
 
       dynamic "private_link_access" {
         for_each = lookup(var.storage_account_properties.network_rules, "private_link_access", false) == false ? [] : [1]
