@@ -121,6 +121,11 @@ variable "blob_properties" {
   default     = {}
 }
 
+variable "storage_account" {
+  type        = any
+  description = "Variable used my module to export dynamic block values"
+}
+
 variable "blob_properties_settings" {
   type        = map(any)
   description = "Are blob properties needed? set variable to with a non empty value to use"
