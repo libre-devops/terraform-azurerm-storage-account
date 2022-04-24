@@ -55,7 +55,7 @@ resource "azurerm_storage_account" "sa" {
   }
 
   dynamic "queue_properties" {
-    for_each = length(var.queue_properties_settings) > 0 || var.queue_properties_settings != "" ? var.queue_properties_settings : {}
+    for_each = length(var.queue_properties) > 0 || var.queue_properties != "" ? var.queue_properties : {}
     content {
       dynamic "logging" {
         for_each = length(var.queue_properties_logging) > 0 || var.queue_properties_logging != "" ? var.queue_properties_logging : {}

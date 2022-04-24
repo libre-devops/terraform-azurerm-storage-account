@@ -127,7 +127,7 @@ variable "blob_properties_settings" {
   default     = {}
 }
 
-variable "queue_properties_settings" {
+variable "queue_properties" {
   type        = map(any)
   description = "Are queue properties needed? set variable to with a non empty value to use"
   default     = {}
