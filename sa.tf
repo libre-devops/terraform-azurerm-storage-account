@@ -40,7 +40,7 @@ resource "azurerm_storage_account" "sa" {
     for_each = lookup(var.storage_account_properties, "network_rules", null) == null ? [] : [1]
     content {
       bypass                     = try(toset(var.storage_account_properties.network_rules.bypass), ["AzureServices"])
-      default_action             = try(toset(var.storage_account_properties.network_rules.default_action), "Deny")
+      default_action             = lookup(var.storage_account_properties.network_rules "default_action", "Deny")
       ip_rules                   = try(toset(var.storage_account_properties.network_rules.ip_rules), [])
       virtual_network_subnet_ids = try(toset(var.storage_account_properties.network_rules.subnets), null)
 
