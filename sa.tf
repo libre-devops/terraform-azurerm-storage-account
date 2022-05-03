@@ -1,7 +1,7 @@
 #checkov:skip=CKV2_AZURE_1:CMKs are not considered in this module
 #checkov:skip=CKV2_AZURE_18:CMKs are not considered in this module
 #checkov:skip=CKV_AZURE_33:Storage logging is not configured by default in this module
-#tfsec:ignore:azure-storage-queue-services-logging-enabled tfsec:ignore:azure-storage-allow-microsoft-service-bypass
+#tfsec:ignore:azure-storage-queue-services-logging-enabled tfsec:ignore:azure-storage-allow-microsoft-service-bypass #tfsec:ignore:azure-storage-default-action-deny
 resource "azurerm_storage_account" "sa" {
   name                            = var.storage_account_name
   resource_group_name             = var.rg_name
