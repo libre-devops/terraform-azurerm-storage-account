@@ -1,4 +1,3 @@
-```hcl
 resource "azurerm_storage_account" "sa" {
   for_each                          = { for sa in var.storage_accounts : sa.name => sa }
   name                              = each.value.name
@@ -289,49 +288,3 @@ data "azurerm_storage_account_sas" "sas" {
     filter  = each.value.sas_config.filter
   }
 }
-```
-## Requirements
-
-No requirements.
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
-
-## Modules
-
-No modules.
-
-## Resources
-
-| Name | Type |
-|------|------|
-| [azurerm_storage_account.sa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_account_sas.sas](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account_sas) | data source |
-
-## Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_storage_accounts"></a> [storage\_accounts](#input\_storage\_accounts) | n/a | <pre>list(object({<br>    name                              = string<br>    rg_name                           = string<br>    location                          = string<br>    account_tier                      = optional(string, "Standard")<br>    account_replication_type          = optional(string, "LRS")<br>    access_tier                       = optional(string, "Hot")<br>    account_kind                      = optional(string, "StorageV2")<br>    enable_https_traffic_only         = optional(bool, true)<br>    min_tls_version                   = optional(string, "TLS1_2")<br>    is_hns_enabled                    = optional(bool, false)<br>    allowed_copy_scope                = optional(string)<br>    cross_tenant_replication_enabled  = optional(bool, false)<br>    edge_zone                         = optional(string, null)<br>    default_to_oauth_authentication   = optional(bool, false)<br>    nfsv3_enabled                     = optional(bool, false)<br>    large_file_share_enabled          = optional(bool, false)<br>    allow_nested_items_to_be_public   = optional(bool, false)<br>    shared_access_keys_enabled        = optional(bool, false)<br>    tags                              = map(string)<br>    sftp_enabled                      = optional(bool, false)<br>    queue_encryption_key_type         = optional(string)<br>    table_encryption_key_type         = optional(string)<br>    infrastructure_encryption_enabled = optional(bool)<br>    immutability_policy = optional(object({<br>      allow_protected_append_writes = optional(bool, false)<br>      period_since_creation_in_days = optional(number)<br>      state                         = optional(string)<br>    }))<br>    sas_policy = optional(object({<br>      expiration_period = optional(string)<br>      expiration_action = optional(string)<br>    }))<br>    identity_type = optional(string)<br>    identity_ids  = optional(list(string))<br>    network_rules = optional(object({<br>      bypass                     = optional(list(string))<br>      default_action             = optional(string)<br>      ip_rules                   = optional(list(string))<br>      virtual_network_subnet_ids = optional(list(string))<br>      private_link_access = optional(list(object({<br>        endpoint_resource_id = string<br>        endpoint_tenant_id   = string<br>      })))<br>    }))<br>    custom_domain = optional(object({<br>      name          = string<br>      use_subdomain = optional(bool)<br>    }))<br>    blob_properties = optional(object({<br>      versioning_enabled       = optional(bool)<br>      change_feed_enabled      = optional(bool)<br>      default_service_version  = optional(string)<br>      last_access_time_enabled = optional(bool)<br>      cors_rule = optional(list(object({<br>        allowed_headers    = list(string)<br>        allowed_methods    = list(string)<br>        allowed_origins    = list(string)<br>        exposed_headers    = list(string)<br>        max_age_in_seconds = number<br>      })))<br>      delete_retention_policy = optional(object({<br>        days = optional(number)<br>      }))<br>      container_delete_retention_policy = optional(object({<br>        days = optional(number)<br>      }))<br>    }))<br>    share_properties = optional(object({<br>      cors_rule = optional(list(object({<br>        allowed_headers    = list(string)<br>        allowed_methods    = list(string)<br>        allowed_origins    = list(string)<br>        exposed_headers    = list(string)<br>        max_age_in_seconds = number<br>      })))<br>      smb = optional(object({<br>        versions                        = list(string)<br>        authentication_types            = list(string)<br>        kerberos_ticket_encryption_type = list(string)<br>        channel_encryption_type         = list(string)<br>      }))<br>      retention_policy = optional(object({<br>        days = number<br>      }))<br>    }))<br>    queue_properties = optional(object({<br>      cors_rule = optional(list(object({<br>        allowed_headers    = list(string)<br>        allowed_methods    = list(string)<br>        allowed_origins    = list(string)<br>        exposed_headers    = list(string)<br>        max_age_in_seconds = number<br>      })))<br>      logging = optional(object({<br>        delete                = bool<br>        read                  = bool<br>        write                 = bool<br>        version               = string<br>        retention_policy_days = optional(number)<br>      }))<br>      minute_metrics = optional(object({<br>        enabled               = bool<br>        version               = string<br>        include_apis          = optional(bool)<br>        retention_policy_days = optional(number)<br>      }))<br>      hour_metrics = optional(object({<br>        enabled               = bool<br>        version               = string<br>        include_apis          = optional(bool)<br>        retention_policy_days = optional(number)<br>      }))<br>    }))<br>    static_website = optional(object({<br>      index_document     = optional(string)<br>      error_404_document = optional(string)<br>    }))<br>    azure_files_authentication = optional(object({<br>      directory_type = string<br>      active_directory = optional(object({<br>        storage_sid         = string<br>        domain_name         = string<br>        domain_sid          = string<br>        domain_guid         = string<br>        forest_name         = string<br>        netbios_domain_name = string<br>      }))<br>    }))<br>    customer_managed_key = optional(object({<br>      key_vault_key_id          = optional(string)<br>      user_assigned_identity_id = optional(string)<br>    }))<br>    routing = optional(object({<br>      publish_internet_endpoints  = optional(bool)<br>      publish_microsoft_endpoints = optional(bool)<br>      choice                      = optional(string)<br>    }))<br>    generate_sas_token = optional(bool, false)<br>    sas_config = optional(object({<br>      https_only     = optional(bool)<br>      signed_version = optional(string)<br>      service        = optional(bool)<br>      container      = optional(bool)<br>      object         = optional(bool)<br>      blob           = optional(bool)<br>      queue          = optional(bool)<br>      table          = optional(bool)<br>      file           = optional(bool)<br>      start          = optional(string)<br>      expiry         = optional(string)<br>      read           = optional(bool)<br>      write          = optional(bool)<br>      delete         = optional(bool)<br>      list           = optional(bool)<br>      add            = optional(bool)<br>      create         = optional(bool)<br>      update         = optional(bool)<br>      process        = optional(bool)<br>      tag            = optional(bool)<br>      filter         = optional(bool)<br>    }), null)<br>  }))</pre> | n/a | yes |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| <a name="output_primary_access_keys"></a> [primary\_access\_keys](#output\_primary\_access\_keys) | The primary access keys of the storage accounts. |
-| <a name="output_primary_blob_connection_strings"></a> [primary\_blob\_connection\_strings](#output\_primary\_blob\_connection\_strings) | The primary connection strings for blob storage of the storage accounts. |
-| <a name="output_primary_blob_endpoints"></a> [primary\_blob\_endpoints](#output\_primary\_blob\_endpoints) | The primary blob endpoints of the storage accounts. |
-| <a name="output_primary_file_endpoints"></a> [primary\_file\_endpoints](#output\_primary\_file\_endpoints) | The primary file endpoints of the storage accounts. |
-| <a name="output_primary_queue_endpoints"></a> [primary\_queue\_endpoints](#output\_primary\_queue\_endpoints) | The primary queue endpoints of the storage accounts. |
-| <a name="output_primary_table_endpoints"></a> [primary\_table\_endpoints](#output\_primary\_table\_endpoints) | The primary table endpoints of the storage accounts. |
-| <a name="output_sas_tokens"></a> [sas\_tokens](#output\_sas\_tokens) | The SAS tokens for the storage accounts. |
-| <a name="output_secondary_access_keys"></a> [secondary\_access\_keys](#output\_secondary\_access\_keys) | The secondary access keys of the storage accounts. |
-| <a name="output_secondary_table_endpoints"></a> [secondary\_table\_endpoints](#output\_secondary\_table\_endpoints) | The secondary table endpoints of the storage accounts. |
-| <a name="output_storage_account_identities"></a> [storage\_account\_identities](#output\_storage\_account\_identities) | The identities of the Storage Accounts. |
-| <a name="output_storage_account_ids"></a> [storage\_account\_ids](#output\_storage\_account\_ids) | The IDs of the storage accounts. |
-| <a name="output_storage_account_locations"></a> [storage\_account\_locations](#output\_storage\_account\_locations) | The locations of the storage accounts. |
-| <a name="output_storage_account_names"></a> [storage\_account\_names](#output\_storage\_account\_names) | The names of the storage accounts. |
-| <a name="output_storage_account_resource_groups"></a> [storage\_account\_resource\_groups](#output\_storage\_account\_resource\_groups) | The resource group names of the storage accounts. |
