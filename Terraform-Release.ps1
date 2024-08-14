@@ -7,7 +7,7 @@ param(
     [string]$GitCommitMessage = "Update code",
     [bool]$SortInputs = $true,
     [bool]$SortOutputs = $true,
-    [bool]$GitRelease = $false,
+    [bool]$GitRelease = $true,
     [bool]$FormatTerraform = $true,
     [bool]$GenerateNewReadme = $true
 )
