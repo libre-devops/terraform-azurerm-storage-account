@@ -1,13 +1,13 @@
 module "rg" {
-  source = "cyber-scot/rg/azurerm"
+  source = "libre-devops/rg/azurerm"
 
-  name     = "rg-${var.short}-${var.loc}-${var.env}-01"
+  rg_name     = "rg-${var.short}-${var.loc}-${var.env}-01"
   location = local.location
   tags     = local.tags
 }
 
 module "network" {
-  source = "cyber-scot/network/azurerm"
+  source = "libre-devops/network/azurerm"
 
   rg_name  = module.rg.rg_name
   location = module.rg.rg_location
@@ -38,7 +38,7 @@ locals {
 }
 
 module "sa" {
-  source = "cyber-scot/storage-account/azurerm"
+  source = "libre-devops/storage-account/azurerm"
   storage_accounts = [
     {
       name     = "sa${var.short}${var.loc}${var.env}01"
