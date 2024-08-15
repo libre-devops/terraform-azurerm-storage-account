@@ -7,7 +7,7 @@ variable "storage_accounts" {
     account_replication_type          = optional(string, "LRS")
     access_tier                       = optional(string, "Hot")
     account_kind                      = optional(string, "StorageV2")
-    enable_https_traffic_only         = optional(bool, true)
+    https_traffic_only_enabled        = optional(bool, true)
     min_tls_version                   = optional(string, "TLS1_2")
     is_hns_enabled                    = optional(bool, false)
     allowed_copy_scope                = optional(string)
