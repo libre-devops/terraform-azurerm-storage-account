@@ -1,6 +1,8 @@
 locals {
   dynamic_tags = {
     "Environment" = var.env
+    "LastUpdated" = formatdate("DDMMYYYY:hhmmss", timestamp())
+
   }
 
   tags = merge(var.static_tags, local.dynamic_tags)
