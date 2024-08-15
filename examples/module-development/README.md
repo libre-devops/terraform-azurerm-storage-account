@@ -1,15 +1,14 @@
-
 ```hcl
 module "rg" {
-  source = "cyber-scot/rg/azurerm"
+  source = "libre-devops/rg/azurerm"
 
-  name     = "rg-${var.short}-${var.loc}-${var.env}-01"
+  rg_name  = "rg-${var.short}-${var.loc}-${var.env}-01"
   location = local.location
   tags     = local.tags
 }
 
 module "network" {
-  source = "cyber-scot/network/azurerm"
+  source = "libre-devops/network/azurerm"
 
   rg_name  = module.rg.rg_name
   location = module.rg.rg_location
@@ -35,12 +34,12 @@ resource "azurerm_user_assigned_identity" "uid" {
 }
 
 locals {
-  now = timestamp()
+  now                 = timestamp()
   seven_days_from_now = timeadd(timestamp(), "168h")
 }
 
 module "sa" {
-  source = "cyber-scot/storage-account/azurerm"
+  source = "libre-devops/storage-account/azurerm"
   storage_accounts = [
     {
       name     = "sa${var.short}${var.loc}${var.env}01"
@@ -107,17 +106,16 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.75.0 |
-| <a name="provider_external"></a> [external](#provider\_external) | 2.3.1 |
-| <a name="provider_http"></a> [http](#provider\_http) | 3.4.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.115.0 |
+| <a name="provider_http"></a> [http](#provider\_http) | 3.4.4 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_network"></a> [network](#module\_network) | cyber-scot/network/azurerm | n/a |
-| <a name="module_rg"></a> [rg](#module\_rg) | cyber-scot/rg/azurerm | n/a |
-| <a name="module_sa"></a> [sa](#module\_sa) | cyber-scot/storage-account/azurerm | n/a |
+| <a name="module_network"></a> [network](#module\_network) | libre-devops/network/azurerm | n/a |
+| <a name="module_rg"></a> [rg](#module\_rg) | libre-devops/rg/azurerm | n/a |
+| <a name="module_sa"></a> [sa](#module\_sa) | libre-devops/storage-account/azurerm | n/a |
 
 ## Resources
 
@@ -125,8 +123,6 @@ No requirements.
 |------|------|
 | [azurerm_user_assigned_identity.uid](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
-| [external_external.detect_os](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
-| [external_external.generate_timestamp](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 | [http_http.client_ip](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 
 ## Inputs
