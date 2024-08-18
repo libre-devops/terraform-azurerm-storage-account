@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "sa" {
   account_tier                      = each.value.account_tier
   account_replication_type          = upper(each.value.account_replication_type)
   access_tier                       = title(each.value.access_tier)
-  https_traffic_only_enabled        = each.value.enable_https_traffic_only
+  https_traffic_only_enabled        = each.value.traffic_only_enabled
   min_tls_version                   = each.value.min_tls_version
   is_hns_enabled                    = each.value.is_hns_enabled
   cross_tenant_replication_enabled  = each.value.cross_tenant_replication_enabled
