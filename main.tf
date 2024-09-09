@@ -290,7 +290,7 @@ data "azurerm_storage_account_sas" "sas" {
 }
 
 module "diagnostic_settings_custom" {
-  source = "../terraform-azurerm-diagnostic-settings"
+  source = "libre-devops/diagnostic-settings/azurerm"
 
   for_each = {
     for sa in var.storage_accounts : sa.name => sa
@@ -306,7 +306,7 @@ module "diagnostic_settings_custom" {
 }
 
 module "diagnostic_settings_enable_all" {
-  source = "../terraform-azurerm-diagnostic-settings"
+  source = "libre-devops/diagnostic-settings/azurerm"
 
   for_each = {
     for sa in var.storage_accounts : sa.name => sa

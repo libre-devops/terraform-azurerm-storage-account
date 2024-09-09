@@ -291,7 +291,7 @@ data "azurerm_storage_account_sas" "sas" {
 }
 
 module "diagnostic_settings_custom" {
-  source = "../terraform-azurerm-diagnostic-settings"
+  source = "libre-devops/diagnostic-settings/azurerm"
 
   for_each = {
     for sa in var.storage_accounts : sa.name => sa
@@ -307,7 +307,7 @@ module "diagnostic_settings_custom" {
 }
 
 module "diagnostic_settings_enable_all" {
-  source = "../terraform-azurerm-diagnostic-settings"
+  source = "libre-devops/diagnostic-settings/azurerm"
 
   for_each = {
     for sa in var.storage_accounts : sa.name => sa
@@ -344,8 +344,8 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_diagnostic_settings_custom"></a> [diagnostic\_settings\_custom](#module\_diagnostic\_settings\_custom) | ../terraform-azurerm-diagnostic-settings | n/a |
-| <a name="module_diagnostic_settings_enable_all"></a> [diagnostic\_settings\_enable\_all](#module\_diagnostic\_settings\_enable\_all) | ../terraform-azurerm-diagnostic-settings | n/a |
+| <a name="module_diagnostic_settings_custom"></a> [diagnostic\_settings\_custom](#module\_diagnostic\_settings\_custom) | libre-devops/diagnostic-settings/azurerm | n/a |
+| <a name="module_diagnostic_settings_enable_all"></a> [diagnostic\_settings\_enable\_all](#module\_diagnostic\_settings\_enable\_all) | libre-devops/diagnostic-settings/azurerm | n/a |
 
 ## Resources
 
