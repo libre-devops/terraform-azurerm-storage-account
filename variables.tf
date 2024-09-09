@@ -161,5 +161,27 @@ variable "storage_accounts" {
       tag            = optional(bool)
       filter         = optional(bool)
     }), null)
+    create_diagnostic_settings = optional(bool, false)
+    diagnostic_settings_enable_all_logs_and_metrics = optional(bool, false)
+    diagnostic_settings               = optional(object({
+      diagnostic_settings_name       = optional(string)
+      storage_account_id             = optional(string)
+      eventhub_name                  = optional(string)
+      eventhub_authorization_rule_id = optional(string)
+      law_id                         = optional(string)
+      law_destination_type           = optional(string)
+      partner_solution_id            = optional(string)
+      enabled_log = optional(list(object({
+        category       = string
+        category_group = optional(string)
+      })), [])
+      metric = optional(list(object({
+        category = string
+        enabled  = optional(bool, true)
+      })), [])
+      enable_all_logs    = optional(bool, false)
+      enable_all_metrics = optional(bool, false)
+    }), null)
   }))
+    description = "The storage accounts to create"
 }
