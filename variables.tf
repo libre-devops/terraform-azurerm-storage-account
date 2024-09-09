@@ -161,9 +161,9 @@ variable "storage_accounts" {
       tag            = optional(bool)
       filter         = optional(bool)
     }), null)
-    create_diagnostic_settings = optional(bool, false)
+    create_diagnostic_settings                      = optional(bool, false)
     diagnostic_settings_enable_all_logs_and_metrics = optional(bool, false)
-    diagnostic_settings               = optional(object({
+    diagnostic_settings = optional(object({
       diagnostic_settings_name       = optional(string)
       storage_account_id             = optional(string)
       eventhub_name                  = optional(string)
@@ -183,5 +183,5 @@ variable "storage_accounts" {
       enable_all_metrics = optional(bool, false)
     }), null)
   }))
-    description = "The storage accounts to create"
+  description = "The storage accounts to create"
 }

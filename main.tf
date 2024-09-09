@@ -314,16 +314,16 @@ module "diagnostic_settings_enable_all" {
   }
 
   diagnostic_settings = {
-    target_resource_id   = azurerm_storage_account.sa[each.key].id
-    law_id               = try(each.value.diagnostic_settings.law_id, null)
-    diagnostic_settings_name = "${azurerm_storage_account.sa[each.key].name}-diagnostics"
-    enable_all_logs      = true
-    enable_all_metrics   = true
-    storage_account_id   = try(each.value.diagnostic_settings.storage_account_id, null)
-    eventhub_name        = try(each.value.diagnostic_settings.eventhub_name, null)
+    target_resource_id             = azurerm_storage_account.sa[each.key].id
+    law_id                         = try(each.value.diagnostic_settings.law_id, null)
+    diagnostic_settings_name       = "${azurerm_storage_account.sa[each.key].name}-diagnostics"
+    enable_all_logs                = true
+    enable_all_metrics             = true
+    storage_account_id             = try(each.value.diagnostic_settings.storage_account_id, null)
+    eventhub_name                  = try(each.value.diagnostic_settings.eventhub_name, null)
     eventhub_authorization_rule_id = try(each.value.diagnostic_settings.eventhub_authorization_rule_id, null)
-    law_destination_type = "Dedicated"
-    partner_solution_id  = try(each.value.diagnostic_settings.partner_solution_id, null)
+    law_destination_type           = "Dedicated"
+    partner_solution_id            = try(each.value.diagnostic_settings.partner_solution_id, null)
   }
 }
 
