@@ -169,7 +169,7 @@ variable "storage_accounts" {
       eventhub_name                  = optional(string)
       eventhub_authorization_rule_id = optional(string)
       law_id                         = optional(string)
-      law_destination_type           = optional(string)
+      law_destination_type           = optional(string, "Dedicated")
       partner_solution_id            = optional(string)
       enabled_log = optional(list(object({
         category       = string

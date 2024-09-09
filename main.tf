@@ -294,7 +294,7 @@ module "diagnostic_settings_custom" {
 
   for_each = {
     for sa in var.storage_accounts : sa.name => sa
-    if sa.create_diagnostic_settings == true && sa.diagnostic_settings != null
+    if sa.create_diagnostic_settings == true && sa.diagnostic_settings != null && sa.diagnostic_settings_enable_all_logs_and_metrics == false
   }
 
   diagnostic_settings = merge(
@@ -310,7 +310,7 @@ module "diagnostic_settings_enable_all" {
 
   for_each = {
     for sa in var.storage_accounts : sa.name => sa
-    if sa.diagnostic_settings_enable_all_logs_and_metrics == true
+    if sa.diagnostic_settings_enable_all_logs_and_metrics == true && sa.create_diagnostic_settings == true
   }
 
   diagnostic_settings = {
@@ -322,7 +322,7 @@ module "diagnostic_settings_enable_all" {
     storage_account_id             = try(each.value.diagnostic_settings.storage_account_id, null)
     eventhub_name                  = try(each.value.diagnostic_settings.eventhub_name, null)
     eventhub_authorization_rule_id = try(each.value.diagnostic_settings.eventhub_authorization_rule_id, null)
-    law_destination_type           = "Dedicated"
+    law_destination_type           = each.value.diagnostic_settings.law_destination_type
     partner_solution_id            = try(each.value.diagnostic_settings.partner_solution_id, null)
   }
 }
