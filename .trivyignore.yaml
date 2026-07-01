@@ -1,0 +1,18 @@
+# Trivy scan waivers for this module. Machine-applied source of truth (passed with --ignorefile);
+# every entry MUST have a matching row in the HEADER.md "Security scan exceptions" table.
+misconfigurations:
+  - id: AVD-AZU-0057
+    paths:
+      - "main.tf"
+    statement: >-
+      This flags the absence of legacy storage analytics logging (the deprecated queue_properties
+      logging block). Logging is provided the modern way via Azure Monitor diagnostic settings (the
+      Libre DevOps diagnostic-settings module), which the complete example demonstrates. The legacy
+      analytics block is intentionally not used, so this repo-local waiver applies to the module resource.
+  - id: AVD-AZU-0058
+    paths:
+      - "main.tf"
+    statement: >-
+      Replication tier is a caller cost and resilience decision, not a security control. The module
+      defaults to LRS and accepts the full set (LRS/GRS/RAGRS/ZRS/GZRS/RAGZRS); geo-redundancy imposes
+      cross-region storage cost, so it is opt-in per account rather than a forced default.
