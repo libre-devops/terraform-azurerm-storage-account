@@ -25,6 +25,13 @@ variable "storage_accounts" {
     = false, for tighter isolation). Ship logs via the diagnostic-settings module rather than legacy
     storage analytics logging.
 
+    To manage the firewall OUTSIDE this module (with the storage-account-network-rules module or a raw
+    azurerm_storage_account_network_rules resource), set manage_network_rules = false: the inline
+    network_rules block is then omitted entirely, since Azure allows only one rule set per account and
+    an inline block would fight the standalone resource with perpetual diffs. Note that an explicit
+    network_rules = null does NOT do this (Terraform replaces a null optional attribute with its
+    default, so the deny-by-default block would still be rendered).
+
     NOTE: the inline queue_properties and static_website blocks are deprecated on azurerm_storage_account
     (removed in provider v5.0), and their replacements (azurerm_storage_account_queue_properties /
     azurerm_storage_account_static_website) are data-plane resources that clash with a deny-by-default
@@ -67,6 +74,7 @@ variable "storage_accounts" {
       managed_hsm_key_id        = optional(string)
     }))
 
+    manage_network_rules = optional(bool, true)
     network_rules = optional(object({
       default_action             = optional(string, "Deny")
       bypass                     = optional(set(string), ["AzureServices"])

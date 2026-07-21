@@ -38,6 +38,13 @@ module. The resource group is passed by id.
 > of scope; their dedicated `azurerm_storage_account_queue_properties` / `_static_website` resources are
 > data-plane and clash with a deny-by-default network rule set. Configure them separately if needed.
 
+To manage the firewall **outside** this module (with the
+[`storage-account-network-rules`](https://registry.terraform.io/modules/libre-devops/storage-account-network-rules/azurerm)
+module), set `manage_network_rules = false` on the account: the inline `network_rules` block is omitted
+entirely, since Azure allows only one rule set per account and an inline block would fight the
+standalone resource with perpetual diffs. An explicit `network_rules = null` does **not** do this
+(Terraform replaces a null optional attribute with its default, so the deny block would still render).
+
 ## Usage
 
 ```hcl

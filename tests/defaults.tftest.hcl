@@ -37,6 +37,23 @@ run "creates_account_with_secure_defaults" {
   }
 }
 
+run "manage_network_rules_false_omits_inline_block" {
+  command = plan
+
+  variables {
+    storage_accounts = {
+      "stldoukstst001" = {
+        manage_network_rules = false
+      }
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_storage_account.this["stldoukstst001"].network_rules) == 0
+    error_message = "manage_network_rules = false should omit the inline network_rules block, leaving the firewall to the storage-account-network-rules module."
+  }
+}
+
 run "creates_blob_props_encryption_scope_and_management_policy" {
   command = plan
 

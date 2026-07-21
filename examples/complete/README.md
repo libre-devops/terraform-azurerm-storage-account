@@ -98,10 +98,10 @@ module "storage" {
             name    = "tier-and-expire-logs"
             filters = { blob_types = ["blockBlob"], prefix_match = ["logs/"] }
             actions = {
+              # Cool + delete only: archive tier is not supported on zone-redundant (ZRS) accounts.
               base_blob = {
-                tier_to_cool_after_days_since_modification_greater_than    = 30
-                tier_to_archive_after_days_since_modification_greater_than = 90
-                delete_after_days_since_modification_greater_than          = 365
+                tier_to_cool_after_days_since_modification_greater_than = 30
+                delete_after_days_since_modification_greater_than       = 365
               }
               version = {
                 delete_after_days_since_creation = 90

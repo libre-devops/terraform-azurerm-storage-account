@@ -54,8 +54,12 @@ resource "azurerm_storage_account" "this" {
     }
   }
 
+  # manage_network_rules = false omits the block entirely so a standalone
+  # azurerm_storage_account_network_rules (the storage-account-network-rules module) can own the
+  # firewall without the two fighting. An explicit network_rules = null cannot express this: Terraform
+  # replaces a null optional attribute with its default, so the deny block would still render.
   dynamic "network_rules" {
-    for_each = each.value.network_rules != null ? [each.value.network_rules] : []
+    for_each = each.value.manage_network_rules ? [each.value.network_rules] : []
     content {
       default_action             = network_rules.value.default_action
       bypass                     = network_rules.value.bypass
